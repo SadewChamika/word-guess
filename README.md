@@ -1,4 +1,3 @@
-﻿# word-guess
 # Wordle in Python
 
 A command-line version of Wordle, built in Python. A random 5-letter word is chosen, and you get 6 guesses to figure it out.

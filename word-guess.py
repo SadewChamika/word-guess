@@ -1,6 +1,6 @@
 from words import get_random_word
 from words import MAX_LENGTH
-from art import TITLE,LEVEL_UP,GAME_OVER,VICTORY
+from art import TITLE,LEVEL_UP,GAME_OVER,VICTORY,ATTEMPT_ART
 
 
 NUM_ATTEMPTS = 6
@@ -52,17 +52,20 @@ def ask_for_guess(word_length):
 def play_level(level, word_length):
     print(f"\n=== Level {level} ===")
     print(f"Guess the {word_length}-letter word!")
+    print(ATTEMPT_ART[0])  # Display initial hangman state
     secret_word = get_random_word(word_length)
 
     for attempt in range(NUM_ATTEMPTS):
         user_guess = ask_for_guess(word_length)
         result = get_feedback(secret_word, user_guess)
+        print(ATTEMPT_ART[attempt + 1])  # Display hangman state after each guess
+        print(f"Attempt {attempt + 1}/{NUM_ATTEMPTS}: {format_result(user_guess, result)}")
         print(f"Result: {format_result(user_guess, result)}")
 
         if user_guess == secret_word:
             print(f"You got it in {attempt + 1} tries!")
             return True
-
+    print(ATTEMPT_ART[NUM_ATTEMPTS])  # Display final hangman state
     print(f"Out of attempts! The word was '{secret_word}'.")
     return False
 

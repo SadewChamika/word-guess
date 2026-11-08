@@ -1,11 +1,34 @@
-"""Word list for the Wordle game.
+"""Word lists for the Wordle game.
 
-Contains 1463 common five-letter English words.
+Words are grouped by length so each level can ask for a different size.
+To add more words, just add them to the right list below.
 """
 
 import random
 
-WORDS = [
+WORDS_3 = [
+    "cat", "dog", "sun", "map", "pen", "hat", "bus", "cup", "red", "sky",
+    "box", "car", "egg", "fan", "fox", "hen", "ink", "jam", "key", "leg",
+    "man", "net", "owl", "pig", "rug", "sea", "toy", "van", "web", "zoo",
+    "ant", "bat", "bed", "bee", "bag", "bow", "cow", "cry", "day", "ear",
+    "eye", "fly", "gem", "gum", "hop", "ice", "jet", "kid", "lip", "log",
+    "mat", "nut", "oil", "pan", "pot", "rat", "rib", "sad", "sit", "tap",
+    "tip", "top", "tub", "wax", "wet", "yes", "zip", "arm", "art", "bin",
+    "cap", "cod", "dig", "dip", "fig", "fit", "gap", "hug", "jar", "mud",
+    "pie", "ram", "sew", "sip", "sob", "tin", "urn",
+]
+
+WORDS_4 = [
+    "tree", "moon", "fish", "road", "wind", "gold", "ship", "farm", "rain", "bird",
+    "book", "cake", "door", "fire", "game", "hand", "jump", "kite", "lamp", "milk",
+    "nest", "park", "rock", "sand", "tent", "wolf", "yard", "zero", "bear", "boat",
+    "cold", "dark", "east", "frog", "gift", "hill", "iron", "king", "lake", "mask",
+    "nose", "open", "pond", "quit", "ring", "snow", "tide", "vase", "wave", "yarn",
+    "zone", "bell", "coin", "desk", "echo", "fork", "gate", "herb", "jazz", "knee",
+    "leaf", "mint", "note", "oval", "pear", "rose", "seed", "twin", "vine", "wing",
+]
+
+WORDS_5 = [
     "about", "above", "abuse", "actor", "acute", "admit", "adopt", "adult",
     "after", "again", "agent", "agree", "ahead", "alarm", "album", "alert",
     "alike", "alive", "allow", "alone", "along", "alter", "among", "anger",
@@ -191,14 +214,69 @@ WORDS = [
     "yeast", "yield", "young", "youth", "yummy", "zebra", "zesty",
 ]
 
+WORDS_6 = [
+    "garden", "planet", "silver", "bridge", "jungle", "castle", "flower", "market",
+    "candle", "dragon", "forest", "guitar", "hunter", "island", "jacket", "kitten",
+    "ladder", "monkey", "nature", "orange", "pencil", "rabbit", "school", "tomato",
+    "window", "yellow", "basket", "button", "camera", "dinner", "engine", "finger",
+    "golden", "harbor", "insect", "jigsaw", "magnet", "narrow", "oyster", "pepper",
+    "rocket", "sunset", "travel", "valley", "walnut", "winter", "anchor", "beyond",
+    "cheese", "desert", "eleven", "flavor", "frozen", "gentle", "hammer", "indigo",
+    "jersey", "knight", "lizard", "mirror", "needle", "purple", "quartz", "reason",
+    "spider", "tunnel", "wizard",
+]
 
-def get_random_word():
-    """Return a random five-letter word from the list."""
-    return random.choice(WORDS)
+WORDS_7 = [
+    "morning", "kitchen", "journey", "monster", "balance", "village", "weather",
+    "balloon", "blanket", "capital", "chicken", "digital", "dolphin", "economy",
+    "fishing", "garbage", "harvest", "history", "holiday", "justice", "lantern",
+    "machine", "mystery", "network", "ostrich", "painter", "picture", "pioneer",
+    "quarter", "rainbow", "science", "silence", "station", "storage", "teacher",
+    "thunder", "traffic", "volcano", "warrior", "whisper", "welcome", "witness",
+    "captain", "compass", "dentist", "freedom", "giraffe", "highway", "journal",
+    "kingdom", "leopard", "natural", "package", "pattern", "penguin", "reptile",
+    "weekend",
+]
+
+WORDS_8 = [
+    "mountain", "elephant", "football", "birthday", "computer", "dinosaur",
+    "daylight", "festival", "hospital", "keyboard", "notebook", "obstacle",
+    "painting", "question", "reindeer", "sandwich", "treasure", "umbrella",
+    "vacation", "backyard", "airplane", "backpack", "building", "calendar",
+    "champion", "distance", "envelope", "firewood", "language", "midnight",
+    "mushroom", "neighbor", "overcome", "pancakes", "quantity", "rainfall",
+    "scissors", "shoulder", "squirrel", "strength", "thousand", "triangle",
+    "universe", "wireless", "yourself", "sunshine", "tropical",
+]
+
+# Look up a list of words by their length: WORDS_BY_LENGTH[5] -> the 5-letter words
+WORDS_BY_LENGTH = {
+    3: WORDS_3,
+    4: WORDS_4,
+    5: WORDS_5,
+    6: WORDS_6,
+    7: WORDS_7,
+    8: WORDS_8,
+}
+
+MIN_LENGTH = min(WORDS_BY_LENGTH)
+MAX_LENGTH = max(WORDS_BY_LENGTH)
+
+
+def get_random_word(length=5):
+    """Return a random word with exactly `length` letters."""
+    if length not in WORDS_BY_LENGTH:
+        raise ValueError(
+            "No words of length %d. Choose between %d and %d."
+            % (length, MIN_LENGTH, MAX_LENGTH)
+        )
+    return random.choice(WORDS_BY_LENGTH[length])
 
 
 if __name__ == "__main__":
-    # Quick self-check: every word must be exactly 5 lowercase letters.
-    assert all(len(w) == 5 and w.isalpha() and w.islower() for w in WORDS)
-    assert len(WORDS) == len(set(WORDS)), "duplicate words found"
-    print(f"{len(WORDS)} words OK. Example: {get_random_word()}")
+    # Quick self-check: every word must match its list's length and be lowercase letters.
+    for length, words in WORDS_BY_LENGTH.items():
+        assert all(len(w) == length and w.isalpha() and w.islower() for w in words), \
+            "bad word in the %d-letter list" % length
+        assert len(words) == len(set(words)), "duplicate words in the %d-letter list" % length
+        print("%d-letter words: %d OK. Example: %s" % (length, len(words), get_random_word(length)))

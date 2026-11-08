@@ -3,6 +3,32 @@ from words import get_random_word
 NUM_ATTEMPTS = 6
 word_length = 4
 
+def get_feedback(secret_word, user_guess ):
+    result = []
+    remaining_letters = []
+
+    for letter in secret_word:
+        remaining_letters.append(letter)
+
+        # Pass 1: greens
+    for i in range(len(secret_word)):
+        if secret_word[i] == user_guess[i]:
+            result.append("G")
+            remaining_letters.remove(user_guess[i])
+        else:
+            result.append("B")
+
+        # Pass 2: yellows
+    for i in range(len(secret_word)):
+        if result[i] == "B" and user_guess[i] in remaining_letters:
+            result[i] = "Y"
+            remaining_letters.remove(user_guess[i])
+    return result
+    
+
+
+
+
 def main():
     print("Welcome to Wordle!")
     secret_word = get_random_word(word_length)
@@ -15,26 +41,7 @@ def main():
                 break
             print(f"Please enter a {word_length}-letter word.")
 
-        result = []
-        remaining_letters = []
-
-        for letter in secret_word:
-            remaining_letters.append(letter)
-
-        # Pass 1: greens
-        for i in range(len(secret_word)):
-            if secret_word[i] == user_guess[i]:
-                result.append("G")
-                remaining_letters.remove(user_guess[i])
-            else:
-                result.append("B")
-
-        # Pass 2: yellows
-        for i in range(len(secret_word)):
-            if result[i] == "B" and user_guess[i] in remaining_letters:
-                result[i] = "Y"
-                remaining_letters.remove(user_guess[i])
-
+        get_feedback(secret_word, user_guess)
         # Pass 3: build the display
         display = ""
         for i in range(len(user_guess)):

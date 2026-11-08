@@ -7,7 +7,6 @@ result = []
 remaining_letters = []
 
 #comparing user input with the secret word
- 
 def get_feedback(secret_word, user_guess ):
     for letter in secret_word:
         remaining_letters.append(letter)
@@ -26,7 +25,6 @@ def get_feedback(secret_word, user_guess ):
     return result
 
 #display function 
-   
 def format_result(user_guess, result):
     display = ""
     for i in range(len(user_guess)):
@@ -38,26 +36,24 @@ def format_result(user_guess, result):
                 display += user_guess[i] + " "
     return display
 
-    
+def ask_for_guess(word_length):
+    while True:
+        user_guess = input("Enter your guess: ").lower()
+        if len(user_guess) == word_length:
+            return user_guess
+        print(f"Please enter a {word_length}-letter word.")
 
 
 
 def main():
     print("Welcome to Wordle!")
     secret_word = get_random_word(word_length)
+    print(secret_word)
     
     for attempt in range(NUM_ATTEMPTS):
-        
-        while True:
-            user_guess = input("Enter your guess: ").lower()
-            if len(user_guess) == word_length:
-                break
-            print(f"Please enter a {word_length}-letter word.")
-
+        user_guess = ask_for_guess(word_length)
         get_feedback(secret_word, user_guess)
-
         display = format_result(user_guess, result)
-
         print(f'Result: {display}')
 
         # Check for a win

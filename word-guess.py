@@ -1,13 +1,13 @@
 from words import get_random_word
 
 NUM_ATTEMPTS = 6
-word_length = 4
-
-result = []
-remaining_letters = []
 
 #comparing user input with the secret word
 def get_feedback(secret_word, user_guess ):
+
+    result = []
+    remaining_letters = []
+
     for letter in secret_word:
         remaining_letters.append(letter)
 
@@ -43,26 +43,27 @@ def ask_for_guess(word_length):
             return user_guess
         print(f"Please enter a {word_length}-letter word.")
 
+#levels in the game
+def play_level(level, word_length):
+    print(f"\n=== Level {level} ===")
+    print(f"Guess the {word_length}-letter word!")
+    secret_word = get_random_word(word_length)
 
+    for attempt in range(NUM_ATTEMPTS):
+        user_guess = ask_for_guess(word_length)
+        result = get_feedback(secret_word, user_guess)
+        print(f"Result: {format_result(user_guess, result)}")
+
+        if user_guess == secret_word:
+            print(f"You got it in {attempt + 1} tries!")
+            return True
+
+    print(f"Out of attempts! The word was '{secret_word}'.")
+    return False
 
 def main():
     print("Welcome to Wordle!")
-    secret_word = get_random_word(word_length)
-    print(secret_word)
-    
-    for attempt in range(NUM_ATTEMPTS):
-        user_guess = ask_for_guess(word_length)
-        get_feedback(secret_word, user_guess)
-        display = format_result(user_guess, result)
-        print(f'Result: {display}')
-
-        # Check for a win
-        if user_guess == secret_word:
-            print("Congratulations! You guessed the word in " + str(attempt + 1) + " tries!")
-            input("Press Enter to exit...")
-            return
-
-    print("Better luck next time! The correct word was '" + secret_word + "'.")
+    play_level(1,3)
     input("Press Enter to exit...")
 
 

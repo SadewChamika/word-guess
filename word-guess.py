@@ -1,5 +1,7 @@
 from words import get_random_word
 from words import MAX_LENGTH
+from art import TITLE
+
 
 NUM_ATTEMPTS = 6
 START_LENGTH = 3
@@ -65,7 +67,7 @@ def play_level(level, word_length):
     return False
 
 def main():
-    print("Welcome to Wordle!")
+    print(TITLE)
     max_level = MAX_LENGTH - START_LENGTH + 1
     level = 1
     

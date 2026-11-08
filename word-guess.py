@@ -1,6 +1,9 @@
 from words import get_random_word
+from words import MAX_LENGTH
 
 NUM_ATTEMPTS = 6
+START_LENGTH = 3
+
 
 #comparing user input with the secret word
 def get_feedback(secret_word, user_guess ):
@@ -63,7 +66,20 @@ def play_level(level, word_length):
 
 def main():
     print("Welcome to Wordle!")
-    play_level(1,3)
+    max_level = MAX_LENGTH - START_LENGTH + 1
+    level = 1
+    
+    while level <= max_level:
+        word_length = START_LENGTH + level - 1
+        won = play_level(level, word_length)
+        if won:
+            level += 1
+        else:
+            print(f"Game over! You reached level {level}.")
+            break
+    else:
+        print("You beat every level. You win the game!")
+    
     input("Press Enter to exit...")
 
 

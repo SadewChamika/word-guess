@@ -1,6 +1,6 @@
 from words import get_random_word
 from words import MAX_LENGTH
-from art import TITLE
+from art import TITLE,LEVEL_UP,GAME_OVER,VICTORY
 
 
 NUM_ATTEMPTS = 6
@@ -76,13 +76,16 @@ def main():
         won = play_level(level, word_length)
         if won:
             level += 1
+            print(LEVEL_UP)
         else:
             print(f"Game over! You reached level {level}.")
+            print(GAME_OVER)
             break
     else:
         print("You beat every level. You win the game!")
+        print(VICTORY)
     
-    input("Press Enter to exit...")
+    input("\nPress Enter to exit...")
 
 
 if __name__ == "__main__":

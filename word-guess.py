@@ -1,11 +1,11 @@
 from words import get_random_word
 
 NUM_ATTEMPTS = 6
-word_length = 5
+word_length = 4
 
 def main():
     print("Welcome to Wordle!")
-    secret_word = get_random_word()
+    secret_word = get_random_word(word_length)
     
     for attempt in range(NUM_ATTEMPTS):
         # Keep asking until the guess is exactly 5 letters
